@@ -15,11 +15,19 @@ import javax.swing.JOptionPane; // here user can select which number he wants
 
 public class GUI {
 
+    private static int[][][] sudokuData = new int[9][3][3]; // use this to locally process data
+
+    public static int[][][] getSudokuData() {
+        return sudokuData;
+    }
+
     public static void main(String[] args) {
         new GUI();
     }
 
     public GUI() {
+
+
 
         // create the whole GUI
         JFrame frame = new JFrame();
@@ -51,17 +59,19 @@ public class GUI {
         JPanel gridPanel = new JPanel(new GridLayout(3, 3)); // sudoku here
         gridPanel.setBackground(Color.blue);
 
-        for (int i = 0; i < 9; i++) { // create 9 3x3 matrices
+        for (int k = 0; k < 9; k++) { // create 9 3x3 matrices
             JPanel subGrid = new JPanel(new GridLayout(3, 3));
             subGrid.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
 
-            // and here during creating a 3x3 matrix, we create all 9 buttons for the 3x3 matrix
-            for (int j = 0; j < 9; j++) {
+
+        for (int i = 0; i < 3; i++) { // X-axis
+            for (int j = 0; j < 3; j++) { // Y-axis
                 JButton button = new JButton();
                 button.setMinimumSize(new Dimension(30,30));
                 button.setMaximumSize(new Dimension(30, 30));
                 button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
                 button.setFont(new Font("Arial", Font.BOLD, 20));
+                button.setActionCommand(k + "," + i + "," + j);
 
                 // listen user choosing a number
                 button.addActionListener(new ActionListener() {
@@ -75,7 +85,11 @@ public class GUI {
                                 options, // user can select one of 'options' list element
                                 options[0]); // default value is number 1
                         if (input != "0") {
-                            button.setText(input); // if a number has been selected, it will be written
+                            button.setText(input); // if 1-9 write down
+                            int k = Character.getNumericValue(button.getActionCommand().charAt(0));
+                            int i = Character.getNumericValue(button.getActionCommand().charAt(2));
+                            int j = Character.getNumericValue(button.getActionCommand().charAt(4));
+                            sudokuData[k][i][j] = Integer.parseInt(input);
                         } else {
                             button.setText("");
                         }
@@ -84,11 +98,12 @@ public class GUI {
                 subGrid.add(button); // add 1 button to matrix
             } // 9 buttons have been added
             gridPanel.add(subGrid); // add 1 matrix to sudoku
+        }
         } // 9 3x3 matrices have been added
 
         frame.getContentPane().add(menuPanel, "North"); // draw menuPanel on top of screen
         frame.getContentPane().add(gridPanel); // draw the sudoku graphic filling most of screen
 
-        frame.setVisible(true); // turn on the GUI
-    } // ends the method 'GUI'
-} // ends the public class 'GUI'
+        frame.setVisible(true); // sudoku board becomes visible
+    } // ends GUI method
+} // ends GUI class

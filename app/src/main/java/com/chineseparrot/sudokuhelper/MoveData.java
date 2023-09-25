@@ -9,7 +9,7 @@ public class MoveData {
     private static final String FILE_NAME = "SudokuData.txt";
     private static Path path = Paths.get(FILE_NAME);
 
-    public static void saveData() {
+    public static void checkFileExists() {
         try {
             // if file not already exist, create and init a SudokuData.txt file
             if (!Files.exists(path)) {
@@ -21,7 +21,7 @@ public class MoveData {
                 for (int k = 0; k < 9; k++) {
                     for (int i = 0; i < 3; i++) {
                         for (int j = 0; j < 3; j++) {
-                            data.append(sudokuData[k][i][j]);
+                            data.append("0");
                             if (j < 2) {
                                 data.append(",");
                             }
@@ -36,9 +36,10 @@ public class MoveData {
         } catch(Exception e) {
                 e.printStackTrace();
         }
-    } // ends saveData
+    } // ends checkFileExists method
 
-    public static void clearFile() {
+    public static void saveDataFromGUI() {
 
-    } // ends clearFile method
+    } // ends saveDataFromGUI method
+
 } // ends MoveData class
