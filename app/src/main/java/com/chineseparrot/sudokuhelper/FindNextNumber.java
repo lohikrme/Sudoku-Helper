@@ -1,21 +1,15 @@
 import java.util.ArrayList;
 
+import app.src.main.java.com.chineseparrot.sudokuhelper.GUI;
+
 public class FindNextNumber {
     public static void main(String[] args) {
         
 
         // sudoku numbers form a board
-        int[][] board = {
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0, 0, 0}
-        };
+        int[][][] sudokuData = GUI.fetchSudokuData();
+
+        System.out.println();
 
         // these store real and predicted numbers of all rows from up to down
         ArrayList<Integer> row1 = new ArrayList<Integer>();

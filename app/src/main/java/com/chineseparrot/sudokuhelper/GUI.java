@@ -15,11 +15,14 @@ import javax.swing.JOptionPane; // here user can select which number he wants
 
 public class GUI {
 
-    private static int[][][] sudokuData = new int[9][3][3]; // use this to locally process data
 
-    public static int[][][] getSudokuData() {
+    // this very first thing is maybe the most important detail to notice!
+    // here we locally store data, so when user changes numbers in GUI, they are also stored here.
+    private static int[][][] sudokuData = new int[9][3][3]; // use this to locally store data
+
+    public static int[][][] fetchSudokuData() {
         return sudokuData;
-    }
+    };
 
     public static void main(String[] args) {
         new GUI();
@@ -29,7 +32,7 @@ public class GUI {
 
 
 
-        // create the whole GUI
+        // create the whole GUI using JFrame object from swing library
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
@@ -43,23 +46,38 @@ public class GUI {
         nextNumberButton.setPreferredSize(new Dimension(160, 50));
         nextNumberButton.setFont(new Font("Arial", Font.BOLD, 18));
         menuPanel.add(nextNumberButton);
+        nextNumberButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("painoit next numberia!");
+            }
+        });
 
         // add clear to top panel
         JButton clearButton = new JButton("Clear");
         clearButton.setPreferredSize(new Dimension(100, 50));
         clearButton.setFont(new Font("Arial", Font.BOLD, 18));
         menuPanel.add(clearButton);
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("painoit clearbuttonia!");
+            }
+        });
 
         // add menu to top panel
         JButton menuButton = new JButton("Menu");
         menuButton.setPreferredSize(new Dimension(100, 50));
         menuButton.setFont(new Font("Arial", Font.BOLD, 18));
         menuPanel.add(menuButton);
+        menuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("painoit menua!");
+            }
+        });
 
         JPanel gridPanel = new JPanel(new GridLayout(3, 3)); // sudoku here
         gridPanel.setBackground(Color.blue);
 
-        for (int k = 0; k < 9; k++) { // create 9 3x3 matrices
+        for (int k = 0; k < 9; k++) { // create 9 slots for 3x3 matrices
             JPanel subGrid = new JPanel(new GridLayout(3, 3));
             subGrid.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
 
@@ -71,11 +89,15 @@ public class GUI {
                 button.setMaximumSize(new Dimension(30, 30));
                 button.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
                 button.setFont(new Font("Arial", Font.BOLD, 20));
-                button.setActionCommand(k + "," + i + "," + j);
+                button.setActionCommand(k + "," + i + "," + j); // these letters are for data matrix
 
                 // listen user choosing a number
                 button.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        // as said a few lines earlier, k, i, j are needed to store data to matrix
+                        int k = Character.getNumericValue(button.getActionCommand().charAt(0));
+                        int i = Character.getNumericValue(button.getActionCommand().charAt(2));
+                        int j = Character.getNumericValue(button.getActionCommand().charAt(4));
                         String[] options = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
                         String input = (String) JOptionPane.showInputDialog(null,
                                 "Select Number:", // message text
@@ -84,15 +106,16 @@ public class GUI {
                                 null, // no icon selected
                                 options, // user can select one of 'options' list element
                                 options[0]); // default value is number 1
-                        if (input != "0") {
+                        if (!input.equals("0")) {
                             button.setText(input); // if 1-9 write down
-                            int k = Character.getNumericValue(button.getActionCommand().charAt(0));
-                            int i = Character.getNumericValue(button.getActionCommand().charAt(2));
-                            int j = Character.getNumericValue(button.getActionCommand().charAt(4));
                             sudokuData[k][i][j] = Integer.parseInt(input);
+                            test();
                         } else {
                             button.setText("");
+                            sudokuData[k][i][j] = 0;
+                            test();
                         }
+
                     } // actionPerformed ends
                 }); // addActionListener ends
                 subGrid.add(button); // add 1 button to matrix
@@ -106,4 +129,23 @@ public class GUI {
 
         frame.setVisible(true); // sudoku board becomes visible
     } // ends GUI method
+
+    private void test(){
+        // test print matrix content to see stored data
+        System.out.println("Tulosta sudokuDatan sisältö: ");
+        System.out.println();
+        for (int a = 0; a < 9; a ++) {
+            for (int b = 0; b < 3; b ++) {
+                for (int c = 0; c < 3; c++) {
+                    System.out.print(sudokuData[a][b][c]);
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("sudokuDatan sisältö päättyy!");
+    }
 } // ends GUI class
+
+
