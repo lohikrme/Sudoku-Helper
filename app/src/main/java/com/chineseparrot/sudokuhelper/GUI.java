@@ -13,24 +13,42 @@ import javax.swing.JFrame; // the whole GUI is inside a frame
 import javax.swing.JPanel; // divide frame into divs or areas allowing control of GUI
 import javax.swing.JOptionPane; // here user can select which number he wants
 
+import java.util.ArrayList; // needed to store and change button values via clear method
+
 public class GUI {
 
-
-    // this very first thing is maybe the most important detail to notice!
     // here we locally store data, so when user changes numbers in GUI, they are also stored here.
     private static int[][][] sudokuData = new int[9][3][3]; // use this to locally store data
 
-    public static int[][][] fetchSudokuData() {
-        return sudokuData;
-    };
+    // store all buttons of sudoku in an array (later need for modifying numbers etc)
+    private ArrayList<JButton> sudokuButtons = new ArrayList<>();
 
+    // mandatory main method that creates a new GUI() object
     public static void main(String[] args) {
         new GUI();
     }
 
+    // use this method inside FindNextNumber to fetch the data
+    public static int[][][] fetchSudokuData() {
+        return sudokuData;
+    };
+
+    // a short ClearSudoku method
+    private void ClearSudoku() {
+        for (JButton button: sudokuButtons) {
+            button.setText("");
+        }
+        for (int k = 0; k < 9; k++) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    sudokuData[k][i][j] = 0;
+                }
+            }
+        }
+    }
+
+    // GUI method is the actual user interface that is running!
     public GUI() {
-
-
 
         // create the whole GUI using JFrame object from swing library
         JFrame frame = new JFrame();
@@ -59,7 +77,7 @@ public class GUI {
         menuPanel.add(clearButton);
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("painoit clearbuttonia!");
+                ClearSudoku();
             }
         });
 
@@ -77,11 +95,17 @@ public class GUI {
         JPanel gridPanel = new JPanel(new GridLayout(3, 3)); // sudoku here
         gridPanel.setBackground(Color.blue);
 
-        for (int k = 0; k < 9; k++) { // create 9 slots for 3x3 matrices
+
+        //---------------------------------------------------------
+        //--------------- CREATE THE SUDOKU -----------------------
+        //---------------------------------------------------------
+
+        // create 9 slots for 3x3 matrices
+        for (int k = 0; k < 9; k++) {
             JPanel subGrid = new JPanel(new GridLayout(3, 3));
             subGrid.setBorder(BorderFactory.createLineBorder(Color.blue, 5));
 
-
+        // create the 3x3 matrices
         for (int i = 0; i < 3; i++) { // X-axis
             for (int j = 0; j < 3; j++) { // Y-axis
                 JButton button = new JButton();
@@ -119,6 +143,7 @@ public class GUI {
                     } // actionPerformed ends
                 }); // addActionListener ends
                 subGrid.add(button); // add 1 button to matrix
+                sudokuButtons.add(button); // store all buttons inside the array
             } // 9 buttons have been added
             gridPanel.add(subGrid); // add 1 matrix to sudoku
         }
