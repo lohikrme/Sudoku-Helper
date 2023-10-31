@@ -15,13 +15,15 @@ import javax.swing.JOptionPane; // here user can select which number he wants
 
 import java.util.ArrayList; // needed to store and change button values via clear method
 
+import app.src.main.java.com.chineseparrot.sudokuhelper.FindNextNumber; // import the other file
+
 public class GUI {
 
     // here we locally store data, so when user changes numbers in GUI, they are also stored here.
     private static int[][][] sudokuData = new int[9][3][3]; // use this to locally store data
 
     // store all buttons of sudoku in an array (later need for modifying numbers etc)
-    private ArrayList<JButton> sudokuButtons = new ArrayList<>();
+    private static ArrayList<JButton> sudokuButtons = new ArrayList<>();
 
     // mandatory main method that creates a new GUI() object
     public static void main(String[] args) {
@@ -33,8 +35,22 @@ public class GUI {
         return sudokuData;
     };
 
+    // use this method to change one number of sudoku GUI
+    // parameters are box-index (0-8), x-index (0-2), y-index (0-2)
+
+    public static void changeOneNumberOfSudoku(int box_index, int x_index, int y_index, int new_number) {
+        sudokuData[box_index][x_index][y_index] = new_number;
+        int arrayIndex = box_index*9 + x_index + y_index * 3;
+        if (new_number != 0) {
+            sudokuButtons.get(arrayIndex).setText(String.valueOf(new_number));
+        } else {
+            sudokuButtons.get(arrayIndex).setText("");
+        }
+
+    }
+
     // a short ClearSudoku method
-    private void ClearSudoku() {
+    private static void ClearSudoku() {
         for (JButton button: sudokuButtons) {
             button.setText("");
         }
@@ -66,7 +82,8 @@ public class GUI {
         menuPanel.add(nextNumberButton);
         nextNumberButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("painoit next numberia!");
+                FindNextNumber.findNumber();
+                test();
             }
         });
 
@@ -155,7 +172,7 @@ public class GUI {
         frame.setVisible(true); // sudoku board becomes visible
     } // ends GUI method
 
-    private void test(){
+    private static void test(){
         // test print matrix content to see stored data
         System.out.println("Tulosta sudokuDatan sisältö: ");
         System.out.println();
