@@ -14,11 +14,11 @@ public class FindNextNumber {
         
 
         // sudoku numbers form a board
-        int[][][] sudokuData = GUI.fetchSudokuData();
+        //int[][][] sudokuData = GUI.fetchSudokuData();
 
 
         System.out.println("find numbers works!");
-        GUI.changeOneNumberOfSudoku(8, 0, 2, 1);
+        GUI.changeOneNumberOfSudoku(8, 0, 2, 9);
 
 
         // these store real and predicted numbers of all rows from up to down

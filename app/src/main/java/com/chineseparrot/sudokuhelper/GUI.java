@@ -31,16 +31,14 @@ public class GUI {
     }
 
     // use this method inside FindNextNumber to fetch the data
-    public static int[][][] fetchSudokuData() {
-        return sudokuData;
-    };
+    public static int[][][] fetchSudokuData() { return sudokuData;};
 
     // use this method to change one number of sudoku GUI
     // parameters are box-index (0-8), x-index (0-2), y-index (0-2)
 
     public static void changeOneNumberOfSudoku(int box_index, int x_index, int y_index, int new_number) {
         sudokuData[box_index][x_index][y_index] = new_number;
-        int arrayIndex = box_index*9 + x_index + y_index * 3;
+        int arrayIndex = box_index*9 + x_index * 3 + y_index;
         if (new_number != 0) {
             sudokuButtons.get(arrayIndex).setText(String.valueOf(new_number));
         } else {
