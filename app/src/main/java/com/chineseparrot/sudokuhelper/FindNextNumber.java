@@ -1,24 +1,26 @@
 package app.src.main.java.com.chineseparrot.sudokuhelper;
 
 import java.util.ArrayList;
-
-import app.src.main.java.com.chineseparrot.sudokuhelper.GUI;
+import app.src.main.java.com.chineseparrot.sudokuhelper.GUI; // import GUI file
 
 public class FindNextNumber {
+
+    // note that the data u fetch here is a copy!
+    // after u find next number, change the original data instead of the copy!
+    private static int[][][] sudokuData2;
+
+
     public static void main(String[] args) {
 
     }
 
     public static void findNumber() {
 
-        
-
-        // sudoku numbers form a board
-        //int[][][] sudokuData = GUI.fetchSudokuData();
+        sudokuData2 = GUI.copySudokuData();
 
 
-        System.out.println("find numbers works!");
         GUI.changeOneNumberOfSudoku(8, 0, 2, 9);
+        test2();
 
 
         // these store real and predicted numbers of all rows from up to down
@@ -54,4 +56,32 @@ public class FindNextNumber {
         ArrayList<Integer> box8 = new ArrayList<Integer>();
         ArrayList<Integer> box9 = new ArrayList<Integer>();
     }
+
+    private static void test2(){
+
+        System.out.println();
+        System.out.println("test2 begins!");
+        System.out.println();
+
+        // test print matrix content to see stored data
+        System.out.println("Tulosta sudokuData2:n sisältö: ");
+        System.out.println();
+        for (int a = 0; a < 9; a ++) {
+            for (int b = 0; b < 3; b ++) {
+                for (int c = 0; c < 3; c++) {
+                    System.out.print(sudokuData2[a][b][c]);
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println("sudokuData2:n sisältö päättyy!");
+        System.out.println();
+        System.out.println("test2 ends!");
+        System.out.println();
+
+    }
+
+    // end FindNextNumber class
 }

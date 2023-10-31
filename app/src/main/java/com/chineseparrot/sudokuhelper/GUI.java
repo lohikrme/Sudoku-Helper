@@ -31,7 +31,17 @@ public class GUI {
     }
 
     // use this method inside FindNextNumber to fetch the data
-    public static int[][][] fetchSudokuData() { return sudokuData;};
+    // note that the method returns copy of data, not original (static) data
+    // this allows modifying data if needed and not ruining original data
+    public static int[][][] copySudokuData() {
+        int[][][] copy = new int[9][3][3];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.arraycopy(sudokuData[i][j], 0, copy[i][j], 0, 3);
+            }
+        }
+        return copy;
+    }
 
     // use this method to change one number of sudoku GUI
     // parameters are box-index (0-8), x-index (0-2), y-index (0-2)
@@ -170,9 +180,13 @@ public class GUI {
         frame.setVisible(true); // sudoku board becomes visible
     } // ends GUI method
 
-    private static void test(){
+    public static void test(){
+
+        System.out.println();
+        System.out.println("GUI test begins!");
+        System.out.println();
         // test print matrix content to see stored data
-        System.out.println("Tulosta sudokuDatan sisältö: ");
+        System.out.println("Print sudokuData: ");
         System.out.println();
         for (int a = 0; a < 9; a ++) {
             for (int b = 0; b < 3; b ++) {
@@ -184,7 +198,10 @@ public class GUI {
             System.out.println();
         }
         System.out.println();
-        System.out.println("sudokuDatan sisältö päättyy!");
+        System.out.println("sudokuData ends!");
+        System.out.println();
+        System.out.println("GUI test ends!");
+        System.out.println();
     }
 } // ends GUI class
 
